@@ -233,6 +233,7 @@ function openGallery(type) {
 
   go('gallery-view');
 }
+window.openGallery = openGallery; // expose globally
 
 
 // EmailJS initialization and contact form handler
@@ -301,6 +302,10 @@ function showAdminLogin() {
     if (e.target === modal) modal.remove();
   });
 
+  // Add modal to DOM first
+  document.body.appendChild(modal);
+
+  // Then attach form listener
   document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
     e.preventDefault();
     const password = document.getElementById('adminPassword').value;
@@ -317,9 +322,8 @@ function showAdminLogin() {
       document.getElementById('adminPassword').value = '';
     }
   });
-
-  document.body.appendChild(modal);
 }
+window.showAdminLogin = showAdminLogin; // expose globally
 
 // Logout admin
 function logoutAdmin() {
@@ -327,6 +331,7 @@ function logoutAdmin() {
   go('home');
   alert('Logged out successfully');
 }
+window.logoutAdmin = logoutAdmin; // expose globally
 
 // Switch between admin tabs
 function switchAdminTab(tab) {
@@ -336,6 +341,7 @@ function switchAdminTab(tab) {
   document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
   document.getElementById(`admin${tab.charAt(0).toUpperCase() + tab.slice(1)}`).classList.remove('hidden');
 }
+window.switchAdminTab = switchAdminTab; // expose globally
 
 // Load admin data when admin page is accessed
 function loadAdminData() {
@@ -412,6 +418,7 @@ function deletePost(id) {
     alert('Post deleted successfully');
   }
 }
+window.deletePost = deletePost; // expose globally
 
 // ================= GALLERY MANAGEMENT =================
 
@@ -479,6 +486,7 @@ function deleteGalleryImage(section, index) {
     alert('Image deleted successfully');
   }
 }
+window.deleteGalleryImage = deleteGalleryImage; // expose globally
 
 // ================= LOAD DATA FROM LOCALSTORAGE ON PAGE LOAD =================
 
