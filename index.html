@@ -7,9 +7,8 @@
   <meta name="description" content="Garden of Success School — A School with a Difference" />
  <link rel="stylesheet" href="main.css">
  <link rel="shortcut icon" href="gos.PNG" type="image/x-icon">
+ <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
- 
-    
 </head>
 <body>
   <header>
@@ -32,6 +31,10 @@
         <a href="#pta" onclick="return go('pta')">PTA</a>
         <a href="#blog" onclick="return go('blog')">Blog</a>
         <a href="#contact" onclick="return go('contact')">Contact</a>
+        <button class="btn btn-solid" onclick="showAdminLogin()" style="margin-left:1rem">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><path d="M12 14v-2a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v2M8 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
+          Admin
+        </button>
       </nav>
       <div class="menu-toggle">
         <button class="menu-btn" aria-label="Open menu" onclick="toggleMenu()">
@@ -44,6 +47,7 @@
       <a href="#academics" onclick="go('academics'); toggleMenu(false); return false;">Academics</a>
       <a href="#admissions" onclick="go('admissions'); toggleMenu(false); return false;">Admissions</a>
       <a href="#gallery" onclick="go('gallery'); toggleMenu(false); return false;">Gallery</a>
+      <button class="btn btn-solid" onclick="showAdminLogin(); toggleMenu(false);" style="margin:.5rem 0">Admin Login</button>
       <a href="#pta" onclick="go('pta'); toggleMenu(false); return false;">PTA</a>
       <a href="#blog" onclick="go('blog'); toggleMenu(false); return false;">Blog</a>
       <a href="#contact" onclick="go('contact'); toggleMenu(false); return false;">Contact</a>
@@ -361,7 +365,7 @@
         <div class="card" style="padding:1rem">
           <h3 style="color:#065f46">Visit Us</h3>
           <p>G96R+3P4, Audu Baale St, <br>Iwaya, Lagos 101245, Lagos</p>
-          <p style="margin:.5rem 0 0"><strong>Phone:</strong> +234 803 345 7528<br><strong>Email:</strong> gardenofsuccess@gmail.com</p>
+          <p style="margin:.5rem 0 0"><strong>Phone:</strong> +234 803 345 7528<br><strong>Email:</strong> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="284f495a4c4d46474e5b5d4b4b4d5b5b684f45494144064b4745">[email&#160;protected]</a></p>
           <div class="card" style="margin-top:.75rem; overflow:hidden;">
   <div style="position:relative; padding-bottom:56.25%; height:0;">
     <iframe
@@ -374,6 +378,102 @@
   </div>
   <p style="padding:.5rem 1rem 1rem"><a href="https://www.google.com/maps/place/G96R%2B3P4%2C%20Audu%20Baale%20St%2C%20Iwaya%2C%20Lagos%20101245%2C%20Lagos" target="_blank" rel="noopener" style="font-weight:600; color:var(--green-700)">Open in Google Maps ↗</a></p>
 </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Admin Panel -->
+    <section id="admin" class="page hidden">
+      <div class="container" style="padding:2rem 0">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem">
+          <h2>Admin Panel</h2>
+          <button class="btn btn-outline" onclick="logoutAdmin()">Logout</button>
+        </div>
+
+        <!-- Admin Tabs -->
+        <div class="admin-tabs" style="display:flex; gap:.5rem; margin-bottom:1.5rem; border-bottom:2px solid var(--border)">
+          <button class="admin-tab active" onclick="switchAdminTab('posts')" data-tab="posts">Manage Posts</button>
+          <button class="admin-tab" onclick="switchAdminTab('gallery')" data-tab="gallery">Manage Gallery</button>
+        </div>
+
+        <!-- Posts Management -->
+        <div id="adminPosts" class="admin-content">
+          <div class="card" style="padding:1.5rem; margin-bottom:1.5rem">
+            <h3 style="margin-top:0; color:#065f46">Add New Blog Post</h3>
+            <form id="addPostForm" style="display:grid; gap:1rem">
+              <div>
+                <label style="display:block; margin-bottom:.3rem; font-weight:600; font-size:14px">Title</label>
+                <input type="text" id="postTitle" class="input" required placeholder="Enter post title">
+              </div>
+              <div>
+                <label style="display:block; margin-bottom:.3rem; font-weight:600; font-size:14px">Date</label>
+                <input type="date" id="postDate" class="input" required>
+              </div>
+              <div>
+                <label style="display:block; margin-bottom:.3rem; font-weight:600; font-size:14px">Tags (comma-separated)</label>
+                <input type="text" id="postTags" class="input" placeholder="e.g., STEM, Events, Culture">
+              </div>
+              <div>
+                <label style="display:block; margin-bottom:.3rem; font-weight:600; font-size:14px">Excerpt</label>
+                <textarea id="postExcerpt" class="input" rows="2" required placeholder="Brief summary"></textarea>
+              </div>
+              <div>
+                <label style="display:block; margin-bottom:.3rem; font-weight:600; font-size:14px">Full Content</label>
+                <textarea id="postContent" class="input" rows="5" required placeholder="Full article content"></textarea>
+              </div>
+              <button type="submit" class="btn btn-solid">Add Post</button>
+            </form>
+          </div>
+
+          <!-- Existing Posts List -->
+          <div class="card" style="padding:1.5rem">
+            <h3 style="margin-top:0; color:#065f46">Existing Posts</h3>
+            <div id="postsList"></div>
+          </div>
+        </div>
+
+        <!-- Gallery Management -->
+        <div id="adminGallery" class="admin-content hidden">
+          <div class="card" style="padding:1.5rem; margin-bottom:1.5rem">
+            <h3 style="margin-top:0; color:#065f46">Add Images to Gallery</h3>
+            <form id="addGalleryForm" style="display:grid; gap:1rem">
+              <div>
+                <label style="display:block; margin-bottom:.3rem; font-weight:600; font-size:14px">Gallery Section</label>
+                <select id="gallerySection" class="input" required>
+                  <option value="">Select section...</option>
+                  <option value="classroom">Classroom Activities</option>
+                  <option value="sports">Sports & Games</option>
+                  <option value="events">School Events</option>
+                </select>
+              </div>
+              <div>
+                <label style="display:block; margin-bottom:.3rem; font-weight:600; font-size:14px">Image URL</label>
+                <input type="url" id="galleryImageUrl" class="input" required placeholder="https://example.com/image.jpg">
+                <p style="font-size:12px; color:#6b7280; margin-top:.3rem">Paste a direct link to an image (JPG, PNG, etc.)</p>
+              </div>
+              <button type="submit" class="btn btn-solid">Add Image</button>
+            </form>
+          </div>
+
+          <!-- Gallery Preview by Section -->
+          <div class="card" style="padding:1.5rem">
+            <h3 style="margin-top:0; color:#065f46">Gallery Images by Section</h3>
+            
+            <div style="margin-bottom:2rem">
+              <h4 style="color:#065f46">Classroom Activities</h4>
+              <div id="galleryClassroom" class="gallery-admin-preview"></div>
+            </div>
+
+            <div style="margin-bottom:2rem">
+              <h4 style="color:#065f46">Sports & Games</h4>
+              <div id="gallerySports" class="gallery-admin-preview"></div>
+            </div>
+
+            <div>
+              <h4 style="color:#065f46">School Events</h4>
+              <div id="galleryEvents" class="gallery-admin-preview"></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -407,14 +507,13 @@
         <div style="display:flex; flex-direction:column; gap:.3rem; margin-top:.4rem; color:#374151">
           <a href="#">Facebook</a>
           <a href="#">Instagram</a>
-          <a href="#">YouTube</a>
+          <a href="#">Youtube</a>
+          <a href="#contact" onclick="return go('contact')">Contact</a>
         </div>
       </div>
     </div>
   </footer>
 
   <script src="script.js"></script>
-
-
 </body>
 </html>
