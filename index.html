@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Garden of Success — A School with a Difference</title>
+  <meta name="description" content="Garden of Success School — A School with a Difference" />
+ <link rel="stylesheet" href="main.css">
+ <link rel="shortcut icon" href="gos.PNG" type="image/x-icon">
+
+  <!-- Define navigation functions early so onclick handlers can find them -->
+  <script>
+    window.PAGES = ['home','about','academics','admissions','gallery','gallery-view','pta','blog','contact'];
+
+    function showOnly(id){
+      // Hide all sections first
+      document.querySelectorAll('.page').forEach(sec=>sec.classList.add('hidden'));
+      // Always show the requested section
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('hidden');
+      // On HOME, also show About and Contact sections
+      if (id === 'home') {
+        const about = document.getElementById('about');
+        const contact = document.getElementById('contact');
+        if (about) about.classList.remove('hidden');
+        if (contact) contact.classList.remove('hidden');
+      }
+    }
+    window.showOnly = showOnly; // expose globally
+
+    function go(id){
+      if(!window.PAGES.includes(id)) return false;
+      showOnly(id);
+      if(location.hash !== '#' + id) history.replaceState(null,'','#'+id);
+      return false;
+    }
+    window.go = go; // expose globally
+
+    function routeOnLoad(){
+      const id = (location.hash||'#home').replace('#','');
+      showOnly(window.PAGES.includes(id)?id:'home');
+    }
+    window.addEventListener('DOMContentLoaded', routeOnLoad);
+  </script>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="#home" class="brand" onclick="return go('home')">
+        <div class="logo" id="logoBox">
+          <span id="logoFallback" style="font-weight:800;color:#065f46">GS</span>
+          <img id="logoImg" alt="Garden of Success logo" style="display:none;width:100%;height:100%;object-fit:cover"/>
+        </div>
+        <div>
+          <div class="brand-title">Garden of Success</div>
+          <div class="brand-sub">A School with a Difference</div>
+        </div>
+      </a>
+      <nav class="menu">
+        <a href="#home" onclick="return go('home')">Home</a>
+        <a href="#academics" onclick="return go('academics')">Academics</a>
+        <a href="#admissions" onclick="return go('admissions')">Admissions</a>
+        <a href="#gallery" onclick="return go('gallery')">Gallery</a>
+        <a href="#pta" onclick="return go('pta')">PTA</a>
+        <a href="#blog" onclick="return go('blog')">Blog</a>
+        <a href="#contact" onclick="return go('contact')">Contact</a>
+      </nav>
+      <div class="menu-toggle">
+        <button class="menu-btn" aria-label="Open menu" onclick="toggleMenu()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="mobile container">
+      <a href="#home" onclick="go('home'); toggleMenu(false); return false;">Home</a>
+      <a href="#academics" onclick="go('academics'); toggleMenu(false); return false;">Academics</a>
+      <a href="#admissions" onclick="go('admissions'); toggleMenu(false); return false;">Admissions</a>
+      <a href="#gallery" onclick="go('gallery'); toggleMenu(false); return false;">Gallery</a>
+      <a href="#pta" onclick="go('pta'); toggleMenu(false); return false;">PTA</a>
+      <a href="#blog" onclick="go('blog'); toggleMenu(false); return false;">Blog</a>
+      <a href="#contact" onclick="go('contact'); toggleMenu(false); return false;">Contact</a>
+      <a href="#admissions" class="btn btn-outline" style="margin:.5rem 0 1rem" onclick="go('admissions'); toggleMenu(false); return false;">Enroll Now</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero (Home) -->
+    <section id="home" class="page hero">
+      <div class="hero-bubble" aria-hidden="true"></div>
+      <div class="container grid hero-grid">
+        <div>
+          <span class="kicker">Established for Excellence</span>
+          <h1 style="margin:.5rem 0 0">Welcome to <span style="color:var(--green-700)">Garden of Success</span></h1>
+          <p style="margin:1rem 0 0; font-size:1.05rem; color:#374151">Where curious minds grow, values flourish, and leaders are nurtured. <strong style="color:#065f46">A School with a Difference.</strong></p>
+          <div style="margin-top:1rem; display:flex; gap:.6rem; flex-wrap:wrap">
+            <a href="#admissions" class="btn btn-solid" onclick="return go('admissions')">Start Admission</a>
+            <a href="#about" class="btn btn-outline" onclick="return go('about')">Learn More</a>
+          </div>
+          <dl class="stats">
+            <div class="card" style="padding:1rem">
+              <dt class="stat">Student–Teacher</dt>
+              <dd class="stat">15:1</dd>
+            </div>
+            <div class="card" style="padding:1rem">
+              <dt class="stat">Clubs & Societies</dt>
+              <dd class="stat">12+</dd>
+            </div>
+            <div class="card" style="padding:1rem">
+              <dt class="stat">Parent Satisfaction</dt>
+              <dd class="stat">98%</dd>
+            </div>
+          </dl>
+        </div>
+        <div style="position:relative">
+          <div class="card" style="aspect-ratio:4/3; overflow:hidden">
+            <img src="hero.jpeg" alt="Smiling students in a bright classroom" style="width:100%; height:100%; object-fit:cover"/>
+          </div>
+          <div class="card" style="position:absolute; left:-1rem; bottom:-1rem; padding:.6rem 1rem">
+            <p style="font-size:12px; color:#4b5563">Modern classrooms • Safe environment</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About (also shown on Home) -->
+    <section id="about" class="page hidden">
+      <div class="container grid about-grid">
+
+        <div>
+          <h2>About Us</h2>
+          <p style="color:#374151; margin-top:.5rem">Garden of Success is a forward-thinking school committed to academic excellence, character development, and hands-on learning. We combine a rich curriculum with creative arts, sports, and technology to equip learners for tomorrow.</p>
+          <ul style="margin:1rem 0 0; padding-left:1rem; color:#374151; line-height:1.7">
+            <li>Cambridge-aligned & Nigerian curriculum</li>
+            <li>STEM labs & digital literacy from early years</li>
+            <li>Values-driven leadership & community service</li>
+            <li>Safe, inclusive, and faith-friendly learning environment</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="card" style="overflow:hidden; border-radius:24px">
+            <img src="about.jpeg" alt="Students collaborating in a STEM lab"/>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="overflow:hidden; border-radius:24px">
+            <img src="big aunty.jpeg" alt="Students collaborating in a STEM lab"/>
+            <div class="card two" style="position:absolute; left:4rem; top: 163rem; padding:.6rem 1rem;" >
+            <p style="font-size:12px; color:#4b5563">Dr. Agatha Nwabueze</p>
+          </div>
+          </div>
+        </div>
+
+        <div class="About-reposition">
+
+      <h2>Proprietress</h2>
+                  <p style="color:#374151; margin-top:.5rem">
+                  Dr. Agatha Nwabueze is the Proprietress of Garden of Success, a distinguished 
+                  educator and PhD holder with a deep commitment to academic excellence and 
+                  holistic child development. Her vision for education goes beyond classroom 
+                  instruction, focusing on nurturing confident, disciplined, and morally grounded 
+                  learners.
+                  With strong academic expertise and leadership experience, Dr. Agatha is dedicated 
+                  to providing a high-quality learning environment that blends rigorous academics with 
+                  character development, creativity, and practical life skills. She believes in 
+                  equipping learners with the knowledge, values, and confidence needed to thrive in a 
+                  rapidly changing world.
+                  Under her visionary leadership, Garden of Success continues to grow as a center of 
+                  excellence, embracing modern teaching methods, values-driven education, and a 
+                  supportive school community committed to preparing students for lifelong success.
+                  </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Academics -->
+    <section id="academics" class="page hidden academics">
+      <div class="container">
+        <div class="section-title">
+          <h2>Academics – Curriculum & Sections</h2>
+          <a href="#admissions" class="btn btn-outline" onclick="return go('admissions')">Download Prospectus</a>
+        </div>
+        <div class="cards">
+          <div class="card" style="padding:1rem 1.25rem">
+            <h3 style="color:#065f46">Early Years</h3>
+            <p style="color:#374151">Play-based learning with strong phonics, numeracy, and social skills development.</p>
+            <ul style="margin:.5rem 0 0; padding-left:1rem; color:#374151">
+              <li>Learning centers</li><li>Music & movement</li><li>Foundational ICT</li>
+            </ul>
+          </div>
+          <div class="card" style="padding:1rem 1.25rem">
+            <h3 style="color:#065f46">Primary</h3>
+            <p style="color:#374151">Literacy & numeracy mastery with project-based learning in Science, Arts, and Humanities.</p>
+            <ul style="margin:.5rem 0 0; padding-left:1rem; color:#374151">
+              <li>STEAM projects</li><li>Reading challenge</li><li>Community service</li>
+            </ul>
+          </div>
+          <div class="card" style="padding:1rem 1.25rem">
+            <h3 style="color:#065f46">Junior Secondary</h3>
+            <p style="color:#374151">Critical thinking, leadership, and career awareness with ICT at the core.</p>
+            <ul style="margin:.5rem 0 0; padding-left:1rem; color:#374151">
+              <li>Coding</li><li>Public speaking</li><li>Entrepreneurship clubs</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:1.5rem; padding:1.25rem 1.25rem 1rem">
+          <h3 style="color:#065f46">Assessment & Support</h3>
+          <div class="grid" style="grid-template-columns:1fr; gap:1rem; margin-top:.5rem">
+            <div>
+              <p style="font-weight:600; color:#065f46">Assessment</p>
+              <p>Continuous assessment, projects, and end-of-term exams with constructive feedback.</p>
+            </div>
+            <div>
+              <p style="font-weight:600; color:#065f46">Learning Support</p>
+              <p>Individualized education plans, reading clinics, and mentorship.</p>
+            </div>
+            <div>
+              <p style="font-weight:600; color:#065f46">Enrichment</p>
+              <p>Clubs, competitions, excursions, and leadership programs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Admissions -->
+    <section id="admissions" class="page hidden admissions">
+      <div class="container">
+        <div class="card" style="padding:1.5rem">
+          <div class="grid" style="grid-template-columns:1fr; gap:1.25rem; align-items:center">
+            <div>
+              <h2>Admissions – Join Us</h2>
+              <p style="color:#374151">We welcome applications year-round and offer scholarships based on merit and need.</p>
+              <ol style="margin:.75rem 0 0; color:#374151; padding-left:1.2rem">
+                <li>Submit online application</li>
+                <li>Entrance assessment & interview</li>
+                <li>Offer & enrollment</li>
+              </ol>
+              <div style="margin-top:1rem; display:flex; gap:.6rem; flex-wrap:wrap">
+                <a href="#contact" class="btn btn-solid" onclick="return go('contact')">Apply Now</a>
+                <a href="#contact" class="btn btn-outline" onclick="return go('contact')">Speak to Admissions</a>
+              </div>
+            </div>
+            <div>
+              <div class="card" style="padding:1rem; background:var(--green-50)">
+                <h3 style="color:#065f46">Tuition & Fees (Sample)</h3>
+                <table style="margin-top:.5rem; color:#374151">
+                  <thead>
+                    <tr><th>Section</th><th>Tuition / Term</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Early Years</td><td>₦XXX,XXX</td></tr>
+                    <tr><td>Primary</td><td>₦XXX,XXX</td></tr>
+                    <tr><td>Junior Secondary</td><td>₦XXX,XXX</td></tr>
+                  </tbody>
+                </table>
+                <p style="font-size:12px; color:#6b7280; margin-top:.5rem">* Replace with your actual schedule and add levies/transport if applicable.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid" style="grid-template-columns:1fr; gap:1rem; margin-top:1rem">
+            <div class="card" style="padding:1rem; background:var(--green-50)">
+              <p style="font-size:14px; color:#065f46">Key Date</p>
+              <p style="font-weight:700; color:#065f46">Open Day</p>
+              <p>1st Saturday, every month</p>
+            </div>
+            <div class="card" style="padding:1rem; background:var(--green-50)">
+              <p style="font-size:14px; color:#065f46">Key Date</p>
+              <p style="font-weight:700; color:#065f46">Entrance Exams</p>
+              <p>Last Saturday, every term</p>
+            </div>
+            <div class="card" style="padding:1rem; background:var(--green-50)">
+              <p style="font-size:14px; color:#065f46">Key Date</p>
+              <p style="font-weight:700; color:#065f46">Scholarship Window</p>
+              <p>June & November</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="page hidden">
+      <div class="container">
+        <div class="section-title"><h2>Gallery</h2></div>
+        <p style="color:#374151">A peek into our vibrant learning community.</p>
+        <div class="gallery-grid" style="margin-top:1rem">
+
+          <a href="#gallery-view" onclick="openGallery('classroom'); return false;">
+            <figure class="card" style="overflow:hidden">
+            <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=1200&auto=format&fit=crop" alt="Classroom smiles" style="height:220px; width:100%; object-fit:cover">
+            <figcaption style="padding:.6rem .8rem; color:#065f46; font-size:14px">Happy learners in a bright classroom</figcaption>
+          </figure>
+        </a>
+
+        <a href="#gallery-view" onclick="openGallery('events'); return false;">
+          <figure class="card" style="overflow:hidden">
+          <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1200&auto=format&fit=crop" alt="STEM collaboration" style="height:220px; width:100%; object-fit:cover">
+          <figcaption style="padding:.6rem .8rem; color:#065f46; font-size:14px">Hands-on STEM activities</figcaption>
+        </figure>
+      </a>
+
+          <a href="#gallery-view" onclick="openGallery('sports'); return false;">
+            <figure class="card" style="overflow:hidden">
+            <img src="event/I3.jpg" alt="Sports day" style="height:220px; width:100%; object-fit:cover">
+            <figcaption style="padding:.6rem .8rem; color:#065f46; font-size:14px">Teamwork on the field</figcaption>
+          </figure>
+        </a>
+
+          <a href="#gallery-view" onclick="openGallery('events'); return false;">
+            <figure class="card" style="overflow:hidden">
+            <img src="event/I3.jpg" alt="Cultural day" style="height:220px; width:100%; object-fit:cover">
+            <figcaption style="padding:.6rem .8rem; color:#065f46; font-size:14px">Celebrating culture and community</figcaption>
+          </figure>
+        </a>
+
+        </div>
+        <div style="margin-top:.5rem; font-size:14px; color:#6b7280">* Replace with your own photos to showcase facilities, classes, and events.</div>
+      </div>
+    </section>
+<!-- Gallery View (Full Layout) -->
+<section id="gallery-view" class="page hidden">
+  <div class="container">
+    <div style="display:flex; align-items:center; gap:.75rem; margin-bottom:1rem">
+      <button class="btn btn-outline" onclick="go('gallery')">← Back</button>
+      <h2 id="galleryTitle" style="margin:0">Gallery</h2>
+    </div>
+
+    <div id="galleryImages" class="gallery-full"></div>
+  </div>
+</section>
+
+
+    <!-- PTA -->
+    <section id="pta" class="page hidden pta">
+      <div class="container">
+        <div class="section-title"><h2>PTA – Parents & Teachers Association</h2></div>
+        <div class="grid" style="grid-template-columns:1fr; gap:1rem">
+          <div class="card" style="padding:1rem">
+            <h3 style="color:#065f46">Mission</h3>
+            <p>To foster collaboration between parents and teachers, supporting academic excellence and student wellbeing.</p>
+            <h4 style="margin-top:.6rem; color:#065f46">Programs</h4>
+            <ul style="margin:.25rem 0 0; padding-left:1rem">
+              <li>Volunteer days and reading buddies</li>
+              <li>Career day & mentorship talks</li>
+              <li>Fundraising for library and sports equipment</li>
+            </ul>
+          </div>
+          <aside class="card" style="padding:1rem">
+            <h4 style="color:#065f46">PTA Executives (Sample)</h4>
+            <ul style="margin:.5rem 0 0; padding-left:1rem">
+              <li>Chairperson – Mr. Rabiu</li>
+            </ul>
+            <a href="#contact" style="display:inline-block; margin-top:.5rem; font-weight:600; color:var(--green-700)" onclick="return go('contact')">Contact PTA →</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog / News -->
+    <section id="blog" class="page hidden">
+      <div class="container">
+        <div class="section-title"><h2>Blog & News</h2></div>
+        <div class="blog-search" style="margin-top:.5rem">
+          <input id="blogSearch" type="search" placeholder="Search posts (e.g., STEM, Culture)" oninput="filterPosts()"/>
+          <a href="#" style="font-weight:600; color:var(--green-700)" onclick="alert('Admin submission placeholder')">Submit a story (admin)</a>
+        </div>
+        <div id="blogList" class="cards" style="margin-top:1rem">
+          <!-- Posts injected by JS below -->
+        </div>
+        <p id="noPosts" style="display:none; color:#6b7280; margin-top:1rem">No posts found. Try a different search term.</p>
+      </div>
+    </section>
+
+    <!-- Contact (also shown on Home) -->
+    <section id="contact" class="page hidden contact">
+      <div class="container contact-grid">
+        <div class="card" style="padding:1rem">
+          <h2>Contact Us</h2>
+          <p style="color:#374151">Have questions about enrollment, fees, or school tours? Send us a message.</p>
+      <form id="contactForm">
+        <input type="text" name="name" placeholder="Full name" required>
+        <input type="email" name="email" placeholder="Email address" required>
+        <input type="tel" name="phone" placeholder="Phone (optional)">
+        <textarea name="message" placeholder="Your message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+
+
+        </div>
+        <div class="card" style="padding:1rem">
+          <h3 style="color:#065f46">Visit Us</h3>
+          <p>G96R+3P4, Audu Baale St, <br>Iwaya, Lagos 101245, Lagos</p>
+          <p style="margin:.5rem 0 0"><strong>Phone:</strong> +234 803 345 7528<br><strong>Email:</strong> gardenofsuccess@gmail.com</p>
+          <div class="card" style="margin-top:.75rem; overflow:hidden;">
+  <div style="position:relative; padding-bottom:56.25%; height:0;">
+    <iframe
+      title="Garden of Success Location"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.091205576688!2d3.3892427731173473!3d6.510138923322352!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8d002bfe9833%3A0xea2cd54cc732edc5!2sGarden%20of%20Success%20Nursery%20and%20Primary%20School!5e0!3m2!1sen!2sng!4v1765722473860!5m2!1sen!2sng" 
+      style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"
+      allowfullscreen
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+  <p style="padding:.5rem 1rem 1rem"><a href="https://www.google.com/maps/place/G96R%2B3P4%2C%20Audu%20Baale%20St%2C%20Iwaya%2C%20Lagos%20101245%2C%20Lagos" target="_blank" rel="noopener" style="font-weight:600; color:var(--green-700)">Open in Google Maps ↗</a></p>
+</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid" style="padding:2rem 0">
+      <div class="span">
+        <div style="font-size:1.1rem; font-weight:800; color:#065f46">Garden of Success</div>
+        <div style="font-size:12px; color:#047857">A School with a Difference</div>
+        <div style="font-size:14px; color:#6b7280; margin-top:.5rem">© <span id="year"></span> Garden of Success. All rights reserved.</div>
+      </div>
+      <div>
+        <h4>Academics</h4>
+        <div style="display:flex; flex-direction:column; gap:.3rem; margin-top:.4rem; color:#374151">
+          <a href="#academics" onclick="return go('academics')">Curriculum</a>
+          <a href="#gallery" onclick="return go('gallery')">Facilities</a>
+          <a href="#blog" onclick="return go('blog')">News</a>
+        </div>
+      </div>
+      <div>
+        <h4>Admissions</h4>
+        <div style="display:flex; flex-direction:column; gap:.3rem; margin-top:.4rem; color:#374151">
+          <a href="#admissions" onclick="return go('admissions')">Apply</a>
+          <a href="#admissions" onclick="return go('admissions')">Tuition & Fees</a>
+          <a href="#admissions" onclick="return go('admissions')">Scholarships</a>
+        </div>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <div style="display:flex; flex-direction:column; gap:.3rem; margin-top:.4rem; color:#374151">
+          <a href="#">Facebook</a>
+          <a href="#">Instagram</a>
+          <a href="#">YouTube</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // --- Logo setup -----------------------------------------------------------
+    // To use your logo, set the path below, e.g.: const LOGO_URL = 'assets/logo.png';
+    const LOGO_URL = 'gos.png'; // put gos.png in the SAME folder as this HTML (or change to 'assets/gos.png')
+    (function applyLogo(){
+      const stored = localStorage.getItem('logoData');
+      const url = LOGO_URL || stored;
+      const box = document.getElementById('logoBox');
+      const fallback = document.getElementById('logoFallback');
+      const img = document.getElementById('logoImg');
+      if (!box || !fallback || !img) return;
+      if (url) {
+        fallback.style.display = 'none';
+        img.src = url;
+        img.style.display = 'block';
+      }
+    })();
+
+    // --- Mobile menu ----------------------------------------------------------
+  function toggleMenu(force) {
+    const menu = document.getElementById('mobileMenu');
+    if (!menu) return;
+
+    if (typeof force === 'boolean') {
+      menu.classList.toggle('open', force);
+    } else {
+      menu.classList.toggle('open');
+    }
+  }
+    // --- Year -----------------------------------------------------------------
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // --- Blog data & filter ---------------------------------------------------
+    const POSTS = [
+      { id:'stem-fair-2025', title:'STEM Fair 2025: Bright Ideas, Brighter Futures', date:'2025-10-25', tags:['STEM','Events','Innovation'], excerpt:'Students showcased renewable energy prototypes and beginner robotics.', content:'From solar cars to line-following robots, learners presented projects that highlight curiosity and perseverance.' },
+      { id:'cultural-day', title:"Cultural Day: Celebrating Nigeria’s Heritage", date:'2025-11-12', tags:['Culture','Community'], excerpt:'Dances, crafts, and delicious local cuisine filled the campus.', content:'Vibrant attire and parent-led workshops on language, music, and folklore.' },
+      { id:'literacy-week', title:'Literacy Week Highlights', date:'2025-12-02', tags:['Literacy','Academics'], excerpt:'Reading relays, author visits, and book swaps across grades.', content:'We launched class reading corners and a monthly book club.' }
+    ];
+    const blogList = document.getElementById('blogList');
+    const noPosts = document.getElementById('noPosts');
+
+    function renderPosts(list){
+      if (!blogList) return; // if blog section not on page yet
+      blogList.innerHTML = '';
+      list.forEach(p => {
+        const article = document.createElement('article');
+        article.className = 'card';
+        article.style.padding = '1rem';
+        const date = new Date(p.date).toLocaleDateString();
+        article.innerHTML = `
+          <p style="font-size:12px; color:#065f46">${date}</p>
+          <h3 style="margin:.2rem 0; color:#065f46">${p.title}</h3>
+          <p style="color:#374151">${p.excerpt}</p>
+          <div style="margin-top:.3rem; display:flex; gap:.3rem; flex-wrap:wrap">${(p.tags||[]).map(t=>`<span class='tag'>${t}</span>`).join('')}</div>
+          <a href="#" onclick="viewPost('${p.id}'); return false;" style="display:inline-block; margin-top:.4rem; font-weight:600; color:var(--green-700)">Read more →</a>
+        `;
+        blogList.appendChild(article);
+      });
+      if (noPosts) noPosts.style.display = list.length ? 'none' : 'block';
+    }
+
+    function filterPosts(){
+      const input = document.getElementById('blogSearch');
+      if (!input) return; // ignore if not on blog section
+      const q = input.value.trim().toLowerCase();
+      if (!q) return renderPosts(POSTS);
+      const filtered = POSTS.filter(p => (p.title + ' ' + p.excerpt + ' ' + (p.tags||[]).join(' ')).toLowerCase().includes(q));
+      renderPosts(filtered);
+    }
+
+    function viewPost(id){
+      const p = POSTS.find(x=>x.id===id);
+      if (!p) return;
+      const overlay = document.createElement('div');
+      overlay.style.position='fixed'; overlay.style.inset='0'; overlay.style.background='rgba(0,0,0,.4)'; overlay.style.zIndex='1000';
+      overlay.innerHTML = `
+        <div class="card" style="max-width:720px; margin:5vh auto; background:#fff; padding:1.25rem">
+          <button onclick="this.closest('div').parentElement.remove()" class="btn btn-outline" style="float:right">Close</button>
+          <h2 style="margin-top:.5rem">${p.title}</h2>
+          <p style="font-size:12px; color:#065f46">${new Date(p.date).toLocaleDateString()} • ${(p.tags||[]).join(' • ')}</p>
+          <p style="margin-top:.5rem; color:#374151">${p.content}</p>
+        </div>`;
+      overlay.addEventListener('click', (e)=>{ if(e.target===overlay) overlay.remove(); });
+      document.body.appendChild(overlay);
+    }
+
+    // Initial render for blog list (safe if blog elements exist)
+    renderPosts(POSTS);
+
+    // --- Logo picker (optional): Press Shift+L or click the brand to set a custom logo
+    (function setupLogoPicker(){
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.style.display = 'none';
+      document.body.appendChild(input);
+      function handleFile(f){
+        const reader = new FileReader();
+        reader.onload = (e)=>{
+          try{
+            localStorage.setItem('logoData', e.target.result);
+            // re-apply logo immediately
+            const img = document.getElementById('logoImg');
+            const fallback = document.getElementById('logoFallback');
+            if (img && fallback){ fallback.style.display='none'; img.src = e.target.result; img.style.display='block'; }
+          }catch(err){ console.warn('Could not save logo to localStorage', err); }
+        };
+        reader.readAsDataURL(f);
+      }
+      input.addEventListener('change', ()=>{ if(input.files && input.files[0]) handleFile(input.files[0]); });
+      // keyboard shortcut
+      window.addEventListener('keydown', (e)=>{ if(e.shiftKey && (e.key==='L' || e.key==='l')){ input.click(); } });
+      // click brand to set logo (desktop)
+      const brand = document.querySelector('.brand');
+      if (brand){ brand.addEventListener('dblclick', (e)=>{ e.preventDefault(); input.click(); }); }
+    })();
+
+    // --- Lightweight self‑tests (debug) --------------------------------------
+    (function runSelfTests(){
+      try {
+        console.assert(typeof window.go === 'function', 'go() should be defined');
+        console.assert(typeof window.showOnly === 'function', 'showOnly() should be defined');
+        // Test: navigating to home should also reveal about & contact
+        showOnly('home');
+        const okAbout = !document.getElementById('about').classList.contains('hidden');
+        const okContact = !document.getElementById('contact').classList.contains('hidden');
+        console.assert(okAbout && okContact, 'Home should show About and Contact');
+        // Test: navigating to academics should hide about by default
+        showOnly('academics');
+        const hiddenAbout = document.getElementById('about').classList.contains('hidden');
+        const hiddenContact = document.getElementById('contact').classList.contains('hidden');
+        console.assert(hiddenAbout && hiddenContact, 'Non-home pages should hide About & Contact');
+        // Restore home view
+        const id = (location.hash||'#home').replace('#','');
+        showOnly(window.PAGES.includes(id)?id:'home');
+        console.log('%cBasic navigation tests passed','color:#15803d');
+      } catch(e){ console.warn('Self-tests skipped:', e); }
+    })();
+//Galary view
+    const GALLERIES = {
+  classroom: {
+    title: 'Classroom Activities',
+    images: [
+      'https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=1200',
+      'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1200'
+    ]
+  },
+  sports: {
+    title: 'Sports & Games',
+    images: [
+      'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1200',
+      'https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1200'
+    ]
+  },
+  events: {
+    title: 'School Events',
+    images: [
+      'event/I1.jpg',
+      'event/I2.jpg',
+      'event/I3.jpg',
+      'event/I4.jpg',
+      'event/I5.jpg',
+      'event/I6.jpg',
+      'event/I7.jpg',
+      'event/I8.jpg',
+      'event/I9.jpg',
+      'event/I10.jpg',
+      'event/I11.jpg',
+      'event/I12.jpg',
+      'event/I13.jpg',
+      'event/I14.jpg',
+      'event/I15.jpg',
+      'event/I16.jpg',
+      'event/I17.jpg',
+      'event/I18.jpg', 'event/I19.jpg','event/I20.jpg','event/I21.jpg','event/I22.jpg','event/I23.jpg','event/I25.jpg',
+      'event/I26.jpg', 'event/I27.jpg','event/I28.jpg', 'event/I29.jpg','event/I30.jpg', 'event/I31.jpg', 'event/I32.jpg',
+      'event/I33.jpg', 'event/I34.jpg', 'event/I35.jpg', 'event/I36.jpg', 'event/I37.jpg', 'event/I38.jpg', 'event/I39.jpg',
+      'event/I40.jpg', 'event/I41.jpg', 'event/I42.jpg', 'event/I43.jpg', 'event/I44.jpg', 'event/I45.jpg',
+      'event/I46.jpg', 'event/I47.jpg', 'event/I48.jpg', 'event/I49.jpg', 'event/I50.jpg', 'event/I51.jpg'
+    ]
+  }
+};
+
+function openGallery(type) {
+  const gallery = GALLERIES[type];
+  if (!gallery) return;
+
+  const title = document.getElementById('galleryTitle');
+  const container = document.getElementById('galleryImages');
+
+  title.textContent = gallery.title;
+  container.innerHTML = '';
+
+  gallery.images.forEach(src => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.loading = 'lazy';
+    container.appendChild(img);
+  });
+
+  go('gallery-view');
+}
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+  (function(){
+    emailjs.init("qks5GXttjyPUHRc4f"); // ✅ your public key
+  })();
+
+  document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    emailjs.sendForm(
+      "service_hcbd68h",   // ✅ service ID
+      "template_5sscgwt",  // ✅ template ID
+      this
+    ).then(
+      function() {
+        alert("Message sent successfully!");
+        document.getElementById("contactForm").reset();
+      },
+      function(error) {
+        alert("Failed to send message.");
+        console.error("EmailJS Error:", error);
+      }
+    );
+  });
+</script>
+
+
+</body>
+</html>
